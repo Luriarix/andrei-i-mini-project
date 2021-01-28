@@ -1,4 +1,4 @@
-# arsalan was here
+
 def productList():
     # products = open("test.txt", "r") #['Coke', 'Sprite']
 
@@ -15,7 +15,7 @@ def addProduct():
     # adding = open("test.txt", "a")
     with open("test.txt", "a") as adding:
         adding.write(input('\nName of new products:\n').lower()+"\n")
-    # adding.close()
+    # adding.close()add
 
 
 def updateProduct():
