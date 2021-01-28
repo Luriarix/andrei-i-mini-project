@@ -1,6 +1,6 @@
-Cola Zero
+Cola
 Sprite
 Pepsi Cola
-Soda
 Candy
 Pizza
+Smoke

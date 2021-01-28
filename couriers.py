@@ -1,60 +1,68 @@
 
 def courierList():
-    couriers = open("couriers.txt", "r") #['Luke', 'Sam']
+    # couriers = open("couriers.txt", "r") #['Luke', 'Sam']
 
-    for courier in couriers:
-        print(f"{courier}".rstrip())
+    with open("couriers.txt", "r") as couriers:
+        courier = couriers.read()
+        print(courier)
+        # for courier in couriers:
+        #     print(f"{courier}".rstrip())
 
-    couriers.close()
+    # couriers.close()
 
 
 def addCourier():
-    adding = open("couriers.txt", "a")
-    adding.write(input('\nName of the new courier:\n')+"\n")
-    adding.close()
+    # adding = open("couriers.txt", "a")
+    with open("couriers.txt", "a") as adding:
+        adding.write(input('\nName of the new courier:\n')+"\n")
+    # adding.close()
 
 
 def updateCourier():
-    couriers = open("couriers.txt", "r")
+    # couriers = open("couriers.txt", "r")
     courList = []
 
     courChange = input('\nCourier name to change:\n')
     newCour = input('\nNew Courier name:\n')
 
-    for item in couriers:
-        courList.append(f"{item}".rstrip())
+    with open("couriers.txt", "r") as couriers:
+        for item in couriers:
+            courList.append(f"{item}".rstrip())
 
     try:
         courList.index(courChange)
     except ValueError:
         print("There is no such courier!\n")
 
-    couriers.close()
-    change = open("couriers.txt", "w")
+    # couriers.close()
+    # change = open("couriers.txt", "w")
 
-    for item in courList:
-        if item == courChange:
-            change.write(newCour + "\n")
-        else:
-            change.write(item + "\n")
+    with open("couriers.txt", "w") as change:
+        for item in courList:
+            if item == courChange:
+                change.write(newCour + "\n")
+            else:
+                change.write(item + "\n")
 
-    change.close()
+    # change.close()
 
 
 def deleteCourier():
-    couriers = open("couriers.txt", "r")
+    # couriers = open("couriers.txt", "r")
     courList = []
 
     courDel = input('\nProduct to delete:\n')
 
-    for item in couriers:
-        if item != courDel + "\n":
-            courList.append(item)
+    with open("couriers.txt", "r") as couriers:
+        for item in couriers:
+            if item != courDel + "\n":
+                courList.append(item)
 
-    couriers.close()
-    change = open("couriers.txt", "w")
+    # couriers.close()
+    # change = open("couriers.txt", "w")
 
-    for item in courList:
-        change.write(item)
+    with open("couriers.txt", "w") as change:
+        for item in courList:
+            change.write(item)
 
-    change.close()
+    # change.close()
