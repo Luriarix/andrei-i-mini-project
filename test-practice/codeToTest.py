@@ -216,6 +216,7 @@ def show_country_info():
     print()
 
     # selected_country_idx = int(input("Please choose a country: "))
+    # name = countries[selected_country_idx]['name']
     name = countries[0]['name']
     result = transform(name)
     print(result)

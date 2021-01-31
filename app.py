@@ -2,22 +2,21 @@ import os
 import sys
 from couriers import addCourier, courierList, deleteCourier, updateCourier
 from products import addProduct, deleteProduct, productList, updateProduct
-
+from order import addOrder, deleteOrder, orderList, updateOrder
 
 def clear():
     os.system( 'cls' )
 
-
 product = False
 courier = False
-
+order = False
 
 print('\nWelcome to the app!')
 
 
 while True:
-    if product == False and courier == False:
-        print('\nEnter a number: \n0: Close   1: Product List   2: Courier List\n')
+    if product == False and courier == False and order == False:
+        print('\nEnter a number: \n0: Close   1: Product List   2: Courier List   3: Order List\n')
 
     elif product == True:
         print('\nEnter a number: \n0: Close   1: Product List   2: New Product   3: Update Product   4: Delete Product   5: Main Menu \n')
@@ -25,70 +24,109 @@ while True:
     elif courier == True:
         print('\nEnter a number: \n0: Close   1: Courier List   2: New Courier   3: Update Courier   4: Delete Courier   5: Main Menu \n')
 
+    elif order == True:
+        print('\nEnter a number: \n0: Close   1: Order List   2: New Order   3: Update Order   4: Delete Order   5: Main Menu \n')
 
-    value = int(input("Select a menu option\n"))
-    clear()
+
+#Main options
+    value = int(input("Select a menu option: "))
+    print('\n')
     if value == 0:
         sys.exit(0)
 
-    elif value == 1 and ((product == False and courier == False) or product == True):
-        # clear()
+    elif value == 1 and ((product == False and courier == False and order == False) or product == True):
+        clear()
         print('\nCurrent Products:\n')
         productList()        
         product = True
-    
-    elif value == 1 and (courier == True and product == False):
-        # clear()
-        print('\nCurrent Couriers:\n')
-        courierList()        
 
-    elif value == 2 and (product == False and courier == False):
-        # clear()
+    elif value == 2 and (product == False and courier == False and order == False):
+        clear()
         print('\nCurrent Couriers:\n')
         courierList()
         courier = True
 
+    elif value == 3 and (product == False and courier == False and order == False):
+        clear()
+        print('\nCurrent Orders:\n')
+        orderList()
+        order = True
+
+    elif value == 5 and (product == True or courier == True or order == True):
+        clear()
+        product = False
+        courier = False
+        order = False
+
+
+#Product options
     elif value == 2 and product == True:
-        # clear()
         addProduct()
+        clear()
         print('\nNew Product List:\n')
         productList()
 
-    elif value == 2 and courier == True:
-        # clear()
-        addCourier()
-        print('\nNew Courier List:\n')
-        courierList()
-
     elif value == 3 and product == True:
-        # clear()
         updateProduct()
+        clear()
         print('\nUpdated Product List:\n')
         productList()
 
-    elif value == 3 and courier == True:
-        # clear()
-        updateCourier()
-        print('\nUpdated Courier List:\n')
-        courierList()
-
     elif value == 4 and product == True:
-        # clear()
         deleteProduct()
+        clear()
         print('\nNew Product List:\n')
         productList()
 
-    elif value == 4 and courier == True:
-        # clear()
-        deleteCourier()
+
+#Couriers options
+    elif value == 1 and (courier == True and product == False and order == False):
+        clear()
+        print('\nCurrent Couriers:\n')
+        courierList()
+
+    elif value == 2 and courier == True:
+        addCourier()
+        clear()
         print('\nNew Courier List:\n')
         courierList()
 
-    elif value == 5 and (product == True or courier == True):
-        # clear()
-        product = False
-        courier = False
+    elif value == 3 and courier == True:
+        updateCourier()
+        clear()
+        print('\nUpdated Courier List:\n')
+        courierList()
 
+    elif value == 4 and courier == True:
+        deleteCourier()
+        clear()
+        print('\nNew Courier List:\n')
+        courierList()
+
+#Orders options
+    elif value == 1 and (order == True and product == False and courier == False):
+        clear()
+        print('\nCurrent Orders:\n')
+        orderList()
+
+    elif value == 2 and order == True:
+        addOrder()
+        # clear()
+        print('\nNew Order List:\n')
+        orderList()
+
+    elif value == 3 and order == True:
+        clear()
+        updateOrder()
+        orderList()
+
+    elif value == 4 and order == True:
+        clear()
+        deleteOrder()
+        orderList()
+
+
+#In case something is introduced that it doesn't know what to do with it
     else:
         print("Please select a value I'm familiar with.")
         if product == True:

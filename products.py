@@ -1,68 +1,48 @@
+prodList = []
 
 def productList():
-    # products = open("test.txt", "r") #['Coke', 'Sprite']
-
-    with open("test.txt", "r") as products:
-        item = products.read()
-        print(item)
-    # for item in products:
-    #     print(f"{item}".rstrip())
-
-    # products.close()
+    with open("products.txt", "r") as products:
+        for item in products:
+            prodList.append(item.rstrip())
+            print(f"{item}".rstrip().capitalize())
 
 
 def addProduct():
-    # adding = open("test.txt", "a")
-    with open("test.txt", "a") as adding:
+    with open("products.txt", "a") as adding:
         adding.write(input('\nName of new products:\n').lower()+"\n")
-    # adding.close()add
 
 
 def updateProduct():
-    # products = open("test.txt", "r")
-    prodList = []
-
-    prodChange = input('\nProduct to change:\n')
-    newProd = input('\nNew product:\n')
-
-    with open("test.txt", "r") as products:
-        for item in products:
-            prodList.append(f"{item}".rstrip())
+    prodChange = input('\nProduct to change:\n').lower()
 
     try:
         prodList.index(prodChange)
     except ValueError:
         print("There is no such product!\n")
 
-    # products.close()
-    # change = open("test.txt", "w")
+    newProd = input('\nNew product:\n').lower()
 
-    with open("test.txt", "w") as change:
+    with open("products.txt", "w") as change:
         for item in prodList:
             if item == prodChange:
                 change.write(newProd + "\n")
             else:
                 change.write(item + "\n")
 
-    # change.close()
+    prodList.clear()
 
 
 def deleteProduct():
-    # products = open("test.txt", "r")
-    prodList = []
+    prodList.clear()
+    prodDel = input('\nProduct to delete:\n').lower()
 
-    prodDel = input('\nProduct to delete:\n')
-
-    with open("test.txt", "r") as products:
+    with open("products.txt", "r") as products:
         for item in products:
             if item != prodDel + "\n":
                 prodList.append(item)
 
-    # products.close()
-    # change = open("test.txt", "w")
-
-    with open("test.txt", "w") as change:
+    with open("products.txt", "w") as change:
         for item in prodList:
             change.write(item)
 
-    # change.close()
+    prodList.clear()

@@ -1,6 +1,2 @@
-Cola
-Sprite
-Pepsi Cola
-Candy
-Pizza
-Smoke
+name,address,phone,courier,order
+mike,stars,0000,Bobbie,burger
