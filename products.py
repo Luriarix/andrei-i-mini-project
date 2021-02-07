@@ -1,48 +1,88 @@
+import csv
+import os
+
+
+def clear():
+    os.system( 'cls' )
+
+
+prodChange = {}
+fieldheads = []
 prodList = []
 
+
 def productList():
-    with open("products.txt", "r") as products:
+    with open("products.csv", "r") as products:
+        x = 0
         for item in products:
-            prodList.append(item.rstrip())
-            print(f"{item}".rstrip().capitalize())
+            print(f"{x} {item}".rstrip('\n').lstrip('0'))
+            x += 1
+
+    with open("products.csv", "r") as products:
+        prodList.clear()
+        for item in csv.DictReader(products):
+            prodList.append(item)
+
+    if fieldheads == []:
+        with open("products.csv", "r") as products:
+            for item in csv.DictReader(products).fieldnames:
+                fieldheads.append(item)
 
 
 def addProduct():
-    with open("products.txt", "a") as adding:
-        adding.write(input('\nName of new products:\n').lower()+"\n")
+    # for item in fieldheads:
+    #     prodChange[item] = input('\nProduct {item}:\n')
+    prodChange = {
+        'name':'mirinda',
+        'price':'5.5'
+    }
+
+    with open("products.csv", "a", newline = '') as adding:
+        writer = csv.DictWriter(adding, fieldheads)
+        writer.writerow(prodChange)
 
 
 def updateProduct():
-    prodChange = input('\nProduct to change:\n').lower()
+    productList()
+    updateProd = int(input('\n0: Cancel\nSelect product to update:'))
 
     try:
-        prodList.index(prodChange)
-    except ValueError:
+        prodList[updateProd - 1] == True
+    except IndexError:
         print("There is no such product!\n")
+        updateProduct()
 
-    newProd = input('\nNew product:\n').lower()
+    if updateProd != 0:
+        clear()
+        print(prodList[updateProd - 1])
 
-    with open("products.txt", "w") as change:
-        for item in prodList:
-            if item == prodChange:
-                change.write(newProd + "\n")
-            else:
-                change.write(item + "\n")
+        x = 0
+        textVariable = '0: Cancel   '
+        for item in fieldheads:
+            x += 1
+            textVariable += f"{x}: {item}   "
+        print(f'\n{textVariable}')
 
-    prodList.clear()
+        detailToUpdate = int(input('\nWhich information to update: '))
+
+        if detailToUpdate != 0:
+            print("\nCurrent Information: " + fieldheads[detailToUpdate - 1] + ': ' + prodList[updateProd - 1][fieldheads[detailToUpdate - 1]])
+            prodList[updateProd - 1][fieldheads[detailToUpdate - 1]] = str(input(f'\nNew {fieldheads[detailToUpdate - 1]}:'))
+
+    writeProductList()
 
 
 def deleteProduct():
-    prodList.clear()
-    prodDel = input('\nProduct to delete:\n').lower()
+    productList()
+    prodDel = int(input('\nProduct entry to delete:'))
 
-    with open("products.txt", "r") as products:
-        for item in products:
-            if item != prodDel + "\n":
-                prodList.append(item)
+    prodList.pop(prodDel - 1)
 
-    with open("products.txt", "w") as change:
-        for item in prodList:
-            change.write(item)
+    writeProductList()
 
-    prodList.clear()
+
+def writeProductList():
+    with open("products.csv", "w", newline = '') as change:
+        writer = csv.DictWriter(change, fieldheads)
+        writer.writeheader()
+        writer.writerows(prodList)

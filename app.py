@@ -16,16 +16,38 @@ print('\nWelcome to the app!')
 
 while True:
     if product == False and courier == False and order == False:
-        print('\nEnter a number: \n0: Close   1: Product List   2: Courier List   3: Order List\n')
+        print('\nEnter a number:\
+    \n0: Close\
+    1: Product List\
+    2: Courier List\
+    3: Order List\n')
 
     elif product == True:
-        print('\nEnter a number: \n0: Close   1: Product List   2: New Product   3: Update Product   4: Delete Product   5: Main Menu \n')
+        print('\nEnter a number:\
+    \n0: Close\
+    1: Product List\
+    2: New Product\
+    3: Update Product\
+    4: Delete Product\
+    5: Main Menu \n')
 
     elif courier == True:
-        print('\nEnter a number: \n0: Close   1: Courier List   2: New Courier   3: Update Courier   4: Delete Courier   5: Main Menu \n')
+        print('\nEnter a number:\
+    \n0: Close\
+    1: Courier List\
+    2: New Courier\
+    3: Update Courier\
+    4: Delete Courier\
+    5: Main Menu \n')
 
     elif order == True:
-        print('\nEnter a number: \n0: Close   1: Order List   2: New Order   3: Update Order   4: Delete Order   5: Main Menu \n')
+        print('\nEnter a number:\
+    \n0: Close\
+    1: Order List\
+    2: New Order\
+    3: Update Order\
+    4: Delete Order\
+    5: Main Menu \n')
 
 
 #Main options
@@ -67,6 +89,7 @@ while True:
         productList()
 
     elif value == 3 and product == True:
+        clear()
         updateProduct()
         clear()
         print('\nUpdated Product List:\n')
@@ -110,8 +133,8 @@ while True:
         orderList()
 
     elif value == 2 and order == True:
+        clear()
         addOrder()
-        # clear()
         print('\nNew Order List:\n')
         orderList()
 

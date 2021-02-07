@@ -7,7 +7,8 @@ def clear():
 orderChange = {}
 fieldheads = []
 ordrList = []
-x = 0
+productList = []
+courierList = []
 
 
 def orderList():
@@ -28,14 +29,31 @@ def orderList():
                 fieldheads.append(item)
 
 
-
-
 def addOrder():
     # for item in fieldheads:
     #     if item != 'status':
     #         order = input(f"Add {item}: ")
     #         orderChange[item] = str(order)
+        # elif item == 'courier':
+            # courierList()
+    #         print("Please select a courier?/
+    #             Please input the couriers id:")
+    #         order = input(f"Add {item}: ")
+    #         orderChange[item] = str(order)
+    #     elif item == 'order':
+            # productList()
+    #         print("What would you like to order?\
+        # (Input 0 to confirm selection)/
+    #             Please input the products id:")
+    #         while order != "0":
+    #             order = input()
+    #             productList.append(order)
+    #         orderChange[item] = str(order)
     #     else: orderChange[item] = 'preparing'
+    #     clear()
+    # for item in fieldheads:
+        # print(orderChange[item])
+        
     orderChange = {
         'name': 'mike',
         'address': 'stars',

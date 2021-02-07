@@ -1,68 +1,88 @@
+import csv
+import os
+
+
+def clear():
+    os.system( 'cls' )
+
+
+courChange = {}
+fieldheads = []
+courList = []
+
 
 def courierList():
-    # couriers = open("couriers.txt", "r") #['Luke', 'Sam']
+    with open("couriers.csv", "r") as couriers:
+        x = 0
+        for item in couriers:
+            print(f"{x} {item}".rstrip('\n').lstrip('0'))
+            x += 1
 
-    with open("couriers.txt", "r") as couriers:
-        courier = couriers.read()
-        print(courier)
-        # for courier in couriers:
-        #     print(f"{courier}".rstrip())
+    with open("couriers.csv", "r") as couriers:
+        courList.clear()
+        for item in csv.DictReader(couriers):
+            courList.append(item)
 
-    # couriers.close()
+    if fieldheads == []:
+        with open("couriers.csv", "r") as couriers:
+            for item in csv.DictReader(couriers).fieldnames:
+                fieldheads.append(item)
 
 
 def addCourier():
-    # adding = open("couriers.txt", "a")
-    with open("couriers.txt", "a") as adding:
-        adding.write(input('\nName of the new courier:\n')+"\n")
-    # adding.close()
+    # for item in fieldheads:
+    #     courChange[item] = input('\nCourier {item}:\n')
+    courChange = {
+        'name':'mark',
+        'phone':'666'
+    }
+
+    with open("couriers.csv", "a") as adding:
+        writer = csv.DictWriter(adding, fieldheads)
+        writer.writerow(courChange)
 
 
 def updateCourier():
-    # couriers = open("couriers.txt", "r")
-    courList = []
-
-    courChange = input('\nCourier name to change:\n')
-    newCour = input('\nNew Courier name:\n')
-
-    with open("couriers.txt", "r") as couriers:
-        for item in couriers:
-            courList.append(f"{item}".rstrip())
+    courierList()
+    updateCour = int(input('\n0: Cancel\nSelect courier to update:'))
 
     try:
-        courList.index(courChange)
-    except ValueError:
-        print("There is no such courier!\n")
+        courList[updateCour - 1] == True
+    except IndexError:
+        print("There is no such product!\n")
+        updateCourier()
 
-    # couriers.close()
-    # change = open("couriers.txt", "w")
+    if updateCour != 0:
+        clear()
+        print(courList[updateCour - 1])
 
-    with open("couriers.txt", "w") as change:
-        for item in courList:
-            if item == courChange:
-                change.write(newCour + "\n")
-            else:
-                change.write(item + "\n")
+        x = 0
+        textVariable = '0: Cancel   '
+        for item in fieldheads:
+            x += 1
+            textVariable += f"{x}: {item}   "
+        print(f'\n{textVariable}')
 
-    # change.close()
+        detailToUpdate = int(input('\nWhich information to update: '))
+
+        if detailToUpdate != 0:
+            print("\nCurrent Information: " + fieldheads[detailToUpdate - 1] + ': ' + courList[updateCour - 1][fieldheads[detailToUpdate - 1]])
+            courList[updateCour - 1][fieldheads[detailToUpdate - 1]] = str(input(f'\nNew {fieldheads[detailToUpdate - 1]}:'))
+
+    writeCourierList()
 
 
 def deleteCourier():
-    # couriers = open("couriers.txt", "r")
-    courList = []
+    courierList()
+    courDel = input('\nCourier entry to delete:')
 
-    courDel = input('\nProduct to delete:\n')
+    courList.pop(courDel - 1)
 
-    with open("couriers.txt", "r") as couriers:
-        for item in couriers:
-            if item != courDel + "\n":
-                courList.append(item)
+    writeCourierList()
 
-    # couriers.close()
-    # change = open("couriers.txt", "w")
 
-    with open("couriers.txt", "w") as change:
-        for item in courList:
-            change.write(item)
-
-    # change.close()
+def writeCourierList():
+    with open("couriers.csv", "w", newline = '') as change:
+        writer = csv.DictWriter(change, fieldheads)
+        writer.writeheader()
+        writer.writerows(courList)
