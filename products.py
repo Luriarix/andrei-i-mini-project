@@ -49,7 +49,8 @@ def updateProduct():
     try:
         prodList[updateProd - 1] == True
     except IndexError:
-        print("There is no such product!\n")
+        clear()
+        print("\nThere is no such product! Try again!\n")
         updateProduct()
 
     if updateProd != 0:

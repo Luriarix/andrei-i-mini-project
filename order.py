@@ -6,9 +6,11 @@ def clear():
 
 orderChange = {}
 fieldheads = []
-ordrList = []
+ordList = []
 productList = []
 courierList = []
+
+statuses = ['preparing', 'delivering', 'done']
 
 
 def orderList():
@@ -19,9 +21,9 @@ def orderList():
             x += 1
 
     with open("test.csv", "r") as orders:
-        ordrList.clear()
+        ordList.clear()
         for item in csv.DictReader(orders):
-            ordrList.append(item)
+            ordList.append(item)
 
     if fieldheads == []:
         with open("test.csv", "r") as orders:
@@ -86,10 +88,10 @@ def updateOrder():
 
         detailToUpdate = int(input('\nWhich information to update: ')) - 1
 
-        print("\nCurrent Information: " + fieldheads[detailToUpdate] + ': ' + ordrList[selectedOrder][fieldheads[detailToUpdate]])
+        print("\nCurrent Information: " + fieldheads[detailToUpdate] + ': ' + ordList[selectedOrder][fieldheads[detailToUpdate]])
 
         newDetails = str(input('\nNew Information: '))
-        ordrList[selectedOrder][fieldheads[detailToUpdate]] = newDetails
+        ordList[selectedOrder][fieldheads[detailToUpdate]] = newDetails
 
         clear()
         print('\nUpdated Order List:\n')
@@ -98,8 +100,15 @@ def updateOrder():
         orderList()
         selectedOrder = int(input('\nOrder status to change: ')) - 1
 
-        newStatus = input('\nNew Status: ')
-        ordrList[selectedOrder]['status'] = newStatus
+        print('Statuses available:')
+        x = 0
+        textVariable = ''
+        for item in statuses:
+            x += 1
+            textVariable += f'{x}: {item}   '
+        print(f'\n{textVariable}')
+        newStatus = int(input('\nNew Status entry: '))
+        ordList[selectedOrder]['status'] = statuses[newStatus]
 
         clear()
         print('\nUpdated Order List:\n')
@@ -116,13 +125,13 @@ def updateOrder():
     with open("test.csv", "w", newline = '') as change:
         writer = csv.DictWriter(change, fieldheads)
         writer.writeheader()
-        for item in ordrList:
+        for item in ordList:
             writer.writerow(item)
 
 
 def deleteOrder():
     orderList()
-    x = len(ordrList)
+    x = len(ordList)
     print('\nSelect 0 to cancel.')
     orderDel = int(input('\nNumber of order to delete: '))
 
@@ -130,12 +139,12 @@ def deleteOrder():
         clear()
         print('\nCurrent Orders:\n')
 
-    elif 0 < orderDel <= len(ordrList):
+    elif 0 < orderDel <= len(ordList):
         with open("test.csv", "w", newline = '') as change:
             writer = csv.DictWriter(change, fieldheads)
             writer.writeheader()
-            for item in ordrList:
-                if ordrList.index(item) != orderDel - 1:
+            for item in ordList:
+                if ordList.index(item) != orderDel - 1:
                     writer.writerow(item)
         clear()
         print('\nNew Order List:\n')

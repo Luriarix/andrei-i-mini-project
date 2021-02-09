@@ -37,7 +37,7 @@ def addCourier():
         'phone':'666'
     }
 
-    with open("couriers.csv", "a") as adding:
+    with open("couriers.csv", "a", newline = '') as adding:
         writer = csv.DictWriter(adding, fieldheads)
         writer.writerow(courChange)
 
@@ -49,7 +49,8 @@ def updateCourier():
     try:
         courList[updateCour - 1] == True
     except IndexError:
-        print("There is no such product!\n")
+        clear()
+        print("\nThere is no such courier! Try again!\n")
         updateCourier()
 
     if updateCour != 0:

@@ -115,6 +115,7 @@ while True:
         courierList()
 
     elif value == 3 and courier == True:
+        clear()
         updateCourier()
         clear()
         print('\nUpdated Courier List:\n')
@@ -151,6 +152,7 @@ while True:
 
 #In case something is introduced that it doesn't know what to do with it
     else:
+        clear()
         print("Please select a value I'm familiar with.")
         if product == True:
             print('\nCurrent Products:\n')
@@ -158,3 +160,6 @@ while True:
         elif courier == True:
             print('\nCurrent Couriers:\n')
             courierList()
+        elif order == True:
+            print('\nCurrent Orders:\n')
+            orderList()
