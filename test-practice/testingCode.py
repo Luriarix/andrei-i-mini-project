@@ -1,6 +1,6 @@
 people = ["John", "Sally", "Mark", "Lisa", "Joe", "Barry", "Jane"]
 
-
+print(people)
 
 
 # #1
@@ -16,7 +16,7 @@ people = ["John", "Sally", "Mark", "Lisa", "Joe", "Barry", "Jane"]
 #     for item in people:
 #         file.write(f'{item}\n')
 #     file.close()
-# except: 
+# except:
 #     print("Error...Error...ERROR...ERROR...")
 #     file.close()
 
