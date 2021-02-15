@@ -1,0 +1,21 @@
+docker run --rm -it debian    # runs + activates container and should delete on exit
+
+
+Executing an .sql file inside your sql docker container:
+    Run docker cp <filename>.sql <container_id>:/<filename>.sql
+    Run docker exec -it <container_id> bin/sh
+    Run ls to confirm your file is in the filesystem
+    Run mysql -u root -p
+    Input password
+    Run use <database_name>;
+    Run source <filename>.sql
+
+
+mycursor = mydb.cursor(dictionary=True)
+
+SELECT o.client AS Client, c.name AS Courier, p.name AS Products
+FROM orders o
+JOIN courierToOrder co ON o.id = co.order_id
+JOIN courier c on c.id = co.courier_id
+JOIN productToOrder po ON o.id = po.order_id
+JOIN products p on p.id = po.product_id

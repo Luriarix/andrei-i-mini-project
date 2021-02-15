@@ -9,6 +9,7 @@ fieldheads = []
 ordList = []
 productList = []
 courierList = []
+test = []
 
 statuses = ['preparing', 'delivering', 'done']
 
@@ -29,6 +30,7 @@ def orderList():
         with open("test.csv", "r") as orders:
             for item in csv.DictReader(orders).fieldnames:
                 fieldheads.append(item)
+
 
 
 def addOrder():
@@ -55,7 +57,7 @@ def addOrder():
     #     clear()
     # for item in fieldheads:
         # print(orderChange[item])
-        
+
     orderChange = {
         'name': 'mike',
         'address': 'stars',

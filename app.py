@@ -3,10 +3,13 @@ import sys
 from couriers import addCourier, courierList, deleteCourier, updateCourier
 from products import addProduct, deleteProduct, productList, updateProduct
 from order import addOrder, deleteOrder, orderList, updateOrder
+import connection
+
 
 def clear():
     os.system( 'cls' )
 
+# Global varia to keep track in what menu I'm in + start of the app
 product = False
 courier = False
 order = False
@@ -15,6 +18,7 @@ print('\nWelcome to the app!')
 
 
 while True:
+# Main Menu
     if product == False and courier == False and order == False:
         print('\nEnter a number:\
     \n0: Close\
@@ -22,6 +26,7 @@ while True:
     2: Courier List\
     3: Order List\n')
 
+# Prod Menu
     elif product == True:
         print('\nEnter a number:\
     \n0: Close\
@@ -31,6 +36,7 @@ while True:
     4: Delete Product\
     5: Main Menu \n')
 
+# Courier Menu
     elif courier == True:
         print('\nEnter a number:\
     \n0: Close\
@@ -40,6 +46,7 @@ while True:
     4: Delete Courier\
     5: Main Menu \n')
 
+# Order Menu
     elif order == True:
         print('\nEnter a number:\
     \n0: Close\
@@ -49,17 +56,19 @@ while True:
     4: Delete Order\
     5: Main Menu \n')
 
-
 #Main options
     value = int(input("Select a menu option: "))
     print('\n')
+
     if value == 0:
+        # cursor.close()
+        connection.connection.close()
         sys.exit(0)
 
     elif value == 1 and ((product == False and courier == False and order == False) or product == True):
         clear()
         print('\nCurrent Products:\n')
-        productList()        
+        productList()
         product = True
 
     elif value == 2 and (product == False and courier == False and order == False):
@@ -80,7 +89,6 @@ while True:
         courier = False
         order = False
 
-
 #Product options
     elif value == 2 and product == True:
         addProduct()
@@ -91,16 +99,15 @@ while True:
     elif value == 3 and product == True:
         clear()
         updateProduct()
-        clear()
-        print('\nUpdated Product List:\n')
-        productList()
+        # clear()
+        # print('\nUpdated Product List:\n')
+        # productList()
 
     elif value == 4 and product == True:
         deleteProduct()
         clear()
         print('\nNew Product List:\n')
         productList()
-
 
 #Couriers options
     elif value == 1 and (courier == True and product == False and order == False):
@@ -149,8 +156,7 @@ while True:
         deleteOrder()
         orderList()
 
-
-#In case something is introduced that it doesn't know what to do with it
+#In case something is introduced that it doesn't know what to do with it while in not in a different file (e.g. products.py, couriers,py and orders.py)
     else:
         clear()
         print("Please select a value I'm familiar with.")
