@@ -1,7 +1,7 @@
 import os
 import sys
 from couriers import addCourier, courierList, deleteCourier, updateCourier
-from products_up_to_week4 import addProduct, deleteProduct, productList, updateProduct
+from products import addProduct, deleteProduct, productList, updateProduct
 from order import addOrder, deleteOrder, orderList, updateOrder
 import connection
 

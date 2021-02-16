@@ -38,8 +38,6 @@ def addCourier():
     z = 0 # standin for a count
 
     for item in fieldNames():
-        print(item)
-        print(item[1])
         if z == 1:
             columnNames += f"{item[0]}"
             # if 'char' in item[1]:
