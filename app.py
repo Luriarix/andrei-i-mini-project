@@ -1,8 +1,8 @@
 import os
 import sys
 from products import addProduct, deleteProduct, productList, updateProduct
-# from couriers import addCourier, courierList, deleteCourier, updateCourier
-# from order import addOrder, deleteOrder, orderList, updateOrder
+from couriers import addCourier, courierList, deleteCourier, updateCourier
+from order import addOrder, deleteOrder, orderList, updateOrder
 import connection
 
 
