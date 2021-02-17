@@ -1,15 +1,15 @@
 import os
 import sys
-from couriers import addCourier, courierList, deleteCourier, updateCourier
 from products import addProduct, deleteProduct, productList, updateProduct
-from order import addOrder, deleteOrder, orderList, updateOrder
+# from couriers import addCourier, courierList, deleteCourier, updateCourier
+# from order import addOrder, deleteOrder, orderList, updateOrder
 import connection
 
 
 def clear():
     os.system( 'cls' )
 
-# Global varia to keep track in what menu I'm in + start of the app
+# Global variabels to keep track in what menu I'm in + start of the app
 product = False
 courier = False
 order = False
@@ -99,9 +99,9 @@ while True:
     elif value == 3 and product == True:
         clear()
         updateProduct()
-        # clear()
-        # print('\nUpdated Product List:\n')
-        # productList()
+        clear()
+        print('\nUpdated Product List:\n')
+        productList()
 
     elif value == 4 and product == True:
         deleteProduct()

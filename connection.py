@@ -16,4 +16,14 @@ connection = pymysql.connect(
     database=database
 )
 
-cursor = connection.cursor()
+
+
+def execute(sql):
+    cursor = connection.cursor()
+
+    with cursor:
+        cursor.execute(sql)
+        y = cursor.fetchall()
+        connection.commit()
+
+    return y
