@@ -26,7 +26,7 @@ def orderList():#, p.name AS Products, p.price as Price
         sql = "SELECT o.*, p.*, c.*\
         FROM orders o\
         left JOIN courier c on c.id = o.courier_id\
-        left JoIN productToOrder po ON o.id = po.order_id\
+        left JOIN productToOrder po ON o.id = po.order_id\
         left JOIN products p on p.id = po.product_id"
         return connection.execute(sql)
 
@@ -107,7 +107,7 @@ def addOrder():# I commented where it asks for the user input, for speeds sake
 
 def updateOrder(): # I put update status and a specific value here
     updateOrd = input('\n0: Cancel   1: Update a Order   2: Update a Orders Status\n')
-    if updateOrd == '1':# still working on this one 
+    if updateOrd == '1':
         rowsValue = ''
 
         orderList()# wanted to print the current order list before selecting something
@@ -125,6 +125,10 @@ def updateOrder(): # I put update status and a specific value here
                 if z != 0 and 'id' in item[0]:
                     rowsValue += f'{z}: courier'
                     break
+                elif 'order_status' in item[0]:
+                    rowsValue += f'{z}: products     '
+                    z += 1
+                    continue
                 rowsValue += f'{z}: {item[0]}: {i[z]}     '
                 z += 1
             print('\n')
@@ -140,35 +144,38 @@ def updateOrder(): # I put update status and a specific value here
             z = 0
 
             for item in fieldNames():
+                print(item)
                 if 'id' in item[0] and z != 0:# making sure to add a courier id and breaking before an error pops up
                     while True:
                         courierList()
-                        selectedCourier = int(input('Please select a new courier ID: '))
+                        selectedCourier = int(input('0: Keep old value \nPlease select a new courier ID: '))
+                        if selectedCourier == 0:
+                            break
                         try:
                             sql = f"SELECT id\
                             FROM courier\
                             WHERE id = {selectedCourier}"
                             connection.execute(sql)
+                            infoToUpdate += f"{item[0]} = {selectedCourier}"
                             break
                         except:
                             print("Please select something that is available. (This choice is mandatory.)")
-                    infoToUpdate += f"{item[0]} = {selectedCourier}"
                     break
 
                 elif z != 0:
+                    if 'status' in item[0]:
+                        continue
                     temp = (input(f'\nOrder new {item[0]}:\n'))
                     if temp != '':
                         if 'char' in item[1]:
-                            if 'status' in item[0]:
-                                continue
-                            else:
-                                infoToUpdate += f"{item[0]} = '{temp}', "
+                            infoToUpdate += f"{item[0]} = '{temp}', "
                         else:
                             infoToUpdate += f"{item[0]} = {temp}, "
                 z += 1
 
-            sql = f"UPDATE orders SET {infoToUpdate} WHERE id = {selectedOrder}"
-            connection.execute(sql)
+            if infoToUpdate != '':
+                sql = f"UPDATE orders SET {infoToUpdate} WHERE id = {selectedOrder}"
+                connection.execute(sql)
 
             while True:
                 detailToUpdate = int(input('0: Finish messing with the products in this order \n1:Add Product     2:Delete Product \nWhat do you want to do: '))
@@ -188,8 +195,9 @@ def updateOrder(): # I put update status and a specific value here
 
                 elif detailToUpdate == 2:
                     while True:
+                        print('\n')
                         productInOrder(selectedOrder)
-                        selectedProduct = int(input('0: To Stop Deleting \nPlease select what product to delete: '))
+                        selectedProduct = int(input('\n0: To Stop Deleting \nPlease select what product to delete: '))
                         if selectedProduct != 0:
                             try:
                                 sql = f"DELETE FROM productToOrder WHERE order_id = {selectedOrder} and product_id = {selectedProduct});"
@@ -209,13 +217,18 @@ def updateOrder(): # I put update status and a specific value here
         elif detailToUpdate == 2:
             prodChange = False
             while True:
+                if prodChange == True:
+                    break
+
                 newValueSet = ''
-                detailToUpdate = int(input("0: Cancel \nWhich column? (id column doesn't count) \nColumn: "))
+                detailToUpdate = int(input("\n0: Cancel \nWhich column? (id column doesn't count) \nColumn: "))
+
                 if detailToUpdate != 0:
                     z = 0
                     for i in fieldNames():
                         if z == detailToUpdate:
-                            if 'courier' in i[0]:
+                            prodChange = True
+                            if 'courier_id' in i[0]:
                                 courierList()
                                 newValue = int(input('0:To Cancel \nPlease select a new courier ID: '))
                                 if selectedProduct == 0:
@@ -228,8 +241,7 @@ def updateOrder(): # I put update status and a specific value here
                                     break
                                 except:
                                     print("Please select something that is available.")
-                            elif 'status' in i[0]:
-                                prodChange = True
+                            elif 'order_status' in i[0]:
                                 while True:
                                     detailToUpdate = int(input('0: Finish messing with the products in this order \n1:Add Product     2:Delete Product \nWhat do you want to do: '))
 
@@ -265,18 +277,23 @@ def updateOrder(): # I put update status and a specific value here
                                     else:
                                         clear()
                                         print("\nDon't know whatcha talking about! Try again!\n")
+                                break
+
                             elif 'char' in item[1]:
                                 newValue = input(f'New {i[0]}:')
+                                break
                             else:
                                 newValue = int(input(f'New {i[0]}:'))
+                                break
                             if newValue != '':
                                 newValueSet = f'{i[0]} = {newValue}'
-                        if 'id' in i[0] and z != detailToUpdate:
+                                break
+                        elif 'id' in i[0] and z != detailToUpdate and z != 0:
                             print('Please select one of the columns shown only!')
                             break
                         z += 1
 
-            if prodChange == False:
+            if prodChange == True and newValue != '':
                 sql = f'UPDATE orders SET {newValueSet} WHERE id = {selectedOrder}'
                 connection.execute(sql)
 
@@ -362,7 +379,10 @@ def deleteOrder():# works and it should work properly
 def productInOrder(ordr_id):
     sql = f"SELECT p.*\
         FROM products p\
-        left JoIN productToOrder po ON p.id = po.product_id\
+        left JOIN productToOrder po ON p.id = po.product_id\
         left JOIN orders o on o.id = po.order_id\
         WHERE o.id = {ordr_id}"
-    return connection.execute(sql)
+    temp = connection.execute(sql)
+    for item in temp:
+        print(f'Id:{item[0]}   Name:{item[1]}   Price:{item[2]}')
+
